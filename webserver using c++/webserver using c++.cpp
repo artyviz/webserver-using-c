@@ -1,4 +1,4 @@
-#define _WINSOCK_DEPRECTAED_NO_WARNINGS
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 #pragma comment(lib , "ws2_32.lib")
 #include <iostream>
 #include <WinSock2.h>
@@ -12,7 +12,7 @@ int main()
 	WSADATA wsaData;
 	struct sockaddr_in server;
 	int server_len;
-	int BUFFER_SIZE = 37020;
+	int BUFFER_SIZE = 30720;
 
 	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
 	{
@@ -58,11 +58,29 @@ int main()
 			std::cout << "couldn't read client request";
 		}
 		std::string serverMessage = "HTTP/1.1 200 ok\n Content-Type : text/html \ n Content - length: ";
-		std::string response = "<html><h1>SERVER SUCCESSFULLY CREATED: 'HELLO' </H1></HTML>";
+		std::string response = "<html><h1>SERVER SUCCESSFULLY CREATED: HELLO :) </H1></HTML>";
 		serverMessage.append(std::to_string(response.size()));
 		serverMessage.append("\n\n");
 		serverMessage.append(response);
-	}	
+	
+		int bytesSent = 0;
+		int totalBytesSent = 0;
+		while (totalBytesSent < serverMessage.size())
+		{
+			bytesSent = send(new_wsocket, serverMessage.c_str(), serverMessage.size(), 0);
+			if (bytesSent < 0)
+			{
+				std::cout << "couldn't send response";
+			}
+		
+			totalBytesSent += bytesSent;
 
+		}
+
+		std::cout << "sent response to client";
+		closesocket(new_wsocket);
+	}	
+	closesocket(wsocket);
+	WSACleanup();
 	return 0; 
 }
