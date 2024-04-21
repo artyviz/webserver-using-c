@@ -57,7 +57,12 @@ int main()
 		{
 			std::cout << "couldn't read client request";
 		}
-	}
+		std::string serverMessage = "HTTP/1.1 200 ok\n Content-Type : text/html \ n Content - length: ";
+		std::string response = "<html><h1>SERVER SUCCESSFULLY CREATED: 'HELLO' </H1></HTML>";
+		serverMessage.append(std::to_string(response.size()));
+		serverMessage.append("\n\n");
+		serverMessage.append(response);
+	}	
 
 	return 0; 
 }
