@@ -19,5 +19,11 @@ int main()
 		std::cout << "couldn't initialize";
 	}
 	
+	wsocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (wsocket == INVALID_SOCKET)
+	{
+		std::cout << "Coudln't create a socket";
+	}
+
 	return 0;
 }
